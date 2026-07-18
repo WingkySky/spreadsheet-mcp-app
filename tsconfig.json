@@ -1,5 +1,4 @@
 {
-  "extends": "skybridge/tsconfig",
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
@@ -12,10 +11,9 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "incremental": true,
-    "rootDir": ".",
+    "declaration": false,
     "outDir": "dist",
+    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
@@ -23,12 +21,13 @@
   },
   "include": [
     "server/**/*.ts",
-    "web/**/*.ts",
-    "web/**/*.tsx"
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    ".next"
+    "web",
+    "**/*.test.ts"
   ]
 }

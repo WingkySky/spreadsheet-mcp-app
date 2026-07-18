@@ -1,27 +1,30 @@
 /**
  * Vite 配置文件
- * 用于打包 UI 前端资源
+ * 用于构建 Skybridge Web 前端
  */
 
+import path from "node:path";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { resolve } from "path";
 
 export default defineConfig({
+  plugins: [react()],
+  root: __dirname,
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
   build: {
-    outDir: "dist/ui",
+    outDir: "../dist/assets",
     emptyOutDir: true,
     rollupOptions: {
-      input: resolve(__dirname, "ui/editor.html"),
+      input: path.resolve(__dirname, "index.html"),
       output: {
         entryFileNames: "assets/[name].[hash].js",
         chunkFileNames: "assets/[name].[hash].js",
         assetFileNames: "assets/[name].[hash].[ext]",
       },
-    },
-  },
-  resolve: {
-    alias: {
-      "@": resolve(__dirname, "."),
     },
   },
 });

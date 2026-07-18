@@ -4,10 +4,10 @@
  * 支持排序、筛选、导出 CSV、数据分析
  */
 
-import { mountWidget, useDisplayMode } from "skybridge/web";
-import { useToolInfo } from "../helpers";
+import { mountView, useDisplayMode } from "skybridge/web";
+import { useToolInfo } from "./helpers";
 import { useEffect, useRef, useState } from "react";
-import "@/index.css";
+import "./index.css";
 
 // ==================== CSV 解析 ====================
 
@@ -108,7 +108,6 @@ function indexToCol(col: number): string {
 
 function SpreadsheetApp() {
   const { input, isPending } = useToolInfo<"spreadsheet">();
-  const { input: importInput } = useToolInfo<"import_spreadsheet">();
   const [displayMode] = useDisplayMode();
   const containerRef = useRef<HTMLDivElement>(null);
   const [jspreadsheet, setJspreadsheet] = useState<any>(null);
@@ -128,9 +127,9 @@ function SpreadsheetApp() {
 
   // 解析输入数据
   const csv = isPending ? String(input?.cells ?? "") : String(input?.cells ?? "");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { fileName: _importFileName, fileContent: importFileContent, fileType: _importFileType } = importInput ?? {};
-  const activeCsv = csv || importFileContent || "";
+  // import_spreadsheet 工具通过 fileContent 接收 Base64，但我们直接在前端处理
+  // 实际的数据流：LLM 调用 import_spreadsheet → 服务端解析 → 返回 cells → widget 渲染
+  const activeCsv = csv;
   const { headers, data } = parseSkybridgeCSV(activeCsv);
 
   // 渲染表格
@@ -206,4 +205,4 @@ function SpreadsheetApp() {
 
 // ==================== 挂载 Widget ====================
 
-mountWidget(<SpreadsheetApp />);
+mountView(<SpreadsheetApp />);

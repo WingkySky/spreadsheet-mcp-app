@@ -3,6 +3,9 @@
   "installCommand": "npm install",
   "outputDirectory": "dist",
   "framework": "express",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/server/src/index.js" }
+  ],
   "regions": ["iad1"],
   "env": {
     "NODE_ENV": "production"
