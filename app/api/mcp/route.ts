@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
       method: request.method,
       headers: request.headers,
       body: request.body as ReadableStream | null,
+      duplex: "half", // 必须：发送 body 时需要设置 duplex
     });
 
     // 处理请求并获取 Response
