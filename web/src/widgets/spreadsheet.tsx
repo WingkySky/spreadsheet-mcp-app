@@ -7,7 +7,7 @@
 import { mountWidget, useDisplayMode } from "skybridge/web";
 import { useToolInfo } from "../helpers";
 import { useEffect, useRef, useState } from "react";
-import "./index.css";
+import "@/index.css";
 
 // ==================== CSV 解析 ====================
 
