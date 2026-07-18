@@ -114,9 +114,9 @@ function parseXLSX(buffer: Buffer): TableData {
     throw new Error("Excel 文件为空");
   }
   
-  const headers = rows[0].map((h, i) => h || `列${i + 1}`);
-  const allData = rows.slice(1).map(row => 
-    headers.map((_, i) => row[i] || "")
+  const headers = rows[0].map((h, i) => String(h || `列${i + 1}`));
+  const allData = rows.slice(1).map(row =>
+    headers.map((_, i) => String(row[i] || ""))
   );
   
   return {
