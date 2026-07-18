@@ -2,6 +2,7 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "outputDirectory": "dist",
+  "framework": "express",
   "regions": ["iad1"],
   "env": {
     "NODE_ENV": "production"
