@@ -3,7 +3,7 @@
  * 测试 parseFile、generateCSV、performAnalysis 函数
  */
 
-import { parseFile, generateCSV, performAnalysis } from "./excel-parser.js";
+import { parseFile, generateCSV, performAnalysis } from "./excel-parser";
 
 // ==================== parseCSV 测试 ====================
 

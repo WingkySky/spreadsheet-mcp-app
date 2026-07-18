@@ -8,7 +8,7 @@ import { z } from "zod";
 import { registerAppTool, registerAppResource, RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { parseFile, generateCSV, performAnalysis } from "./utils/excel-parser.js";
+import { parseFile, generateCSV, performAnalysis } from "./utils/excel-parser";
 
 const DIST_DIR = path.join(process.cwd(), "dist");
 

@@ -8,8 +8,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   WebStandardStreamableHTTPServerTransport,
-} from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
-import { createServer } from "@/server/index.js";
+} from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp";
+import { createServer } from "@/server/index";
 
 /**
  * 会话状态存储
