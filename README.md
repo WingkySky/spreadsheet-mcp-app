@@ -1,34 +1,42 @@
-# 📊 交互式表格 MCP App
+# 📊 交互式电子表格 MCP App
 
-一个在 AI 对话中提供**可交互电子表格**的 MCP App。让用户直接在对话中查看、编辑、分析和导出表格数据。
+一个在 AI 对话中提供**可交互电子表格**的 MCP App，基于 [Skybridge](https://github.com/alpic-ai/skybridge) 框架构建。
 
 ## ✨ 特性
 
 - 📥 **智能导入** - 支持 XLSX、CSV 格式
 - ✏️ **实时编辑** - 像 Excel 一样直接修改单元格
-- 🔍 **排序筛选** - 一键排序，灵活筛选
-- 📤 **轻松导出** - 导出为 CSV 或 Excel
-- 🤖 **AI 感知** - 用户操作实时反馈给 AI
-- 🔒 **安全隔离** - iframe 沙箱，数据不泄露
+- 📤 **轻松导出** - 导出为 CSV
+- 🤖 **MCP Apps 支持** - 在 Claude Code Desktop 中弹出交互式表格编辑器
+- 🔒 **安全隔离** - iframe 沙箱渲染
 
 ## 🚀 快速开始
 
 ### 本地开发
 
 ```bash
-# 1. 克隆项目
-git clone <your-repo-url>
-cd spreadsheet-mcp-app
-
-# 2. 安装依赖
+# 1. 安装依赖
 npm install
 
-# 3. 启动开发服务器
+# 2. 启动开发服务器
 npm run dev
 
-# 4. 测试
-# 访问 http://localhost:3000 查看首页
-# 访问 http://localhost:3000/test 查看测试页面
+# 3. 使用 cloudflared 隧道（可选，用于连接 Claude）
+cloudflared tunnel --url http://localhost:3000
+```
+
+### 连接 Claude
+
+使用 cloudflared 创建隧道，然后将隧道 URL 添加到 Claude 的 MCP 配置中：
+
+```json
+{
+  "mcpServers": {
+    "spreadsheet": {
+      "url": "https://xxx.trycloudflare.com/mcp"
+    }
+  }
+}
 ```
 
 ### 部署到 Vercel
@@ -44,81 +52,65 @@ vercel login
 vercel --prod
 ```
 
+部署后，MCP 端点地址为：`https://your-app.vercel.app/mcp`
+
 ## 📖 使用方法
 
-### 在 Trae CN 中使用
+### 在 Claude Code Desktop 中使用
 
 1. 配置 MCP Server：
 ```json
 {
   "mcpServers": {
     "spreadsheet": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "https://spreadsheet-mcp-app.vercel.app/api/mcp"
-      ],
-      "env": {},
-      "description": "交互式电子表格 MCP App"
+      "url": "https://your-app.vercel.app/mcp"
     }
   }
 }
 ```
 
-2. 在对话中使用：
+2. 在对话中：
    - 上传 Excel/CSV 文件
    - 查看交互式表格
    - 编辑数据
    - 导出数据
 
-### 在 Claude Desktop 中使用
+### 工具说明
 
-1. 配置 MCP Server：
-```json
-{
-  "mcpServers": {
-    "spreadsheet": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "https://spreadsheet-mcp-app.vercel.app/api/mcp"
-      ]
-    }
-  }
-}
-```
-
-2. 在对话中使用：
-   - 上传 Excel/CSV 文件
-   - 查看交互式表格
-   - 编辑数据
-   - 导出数据
-
-## 📚 文档
-
-- [使用指南](./USAGE.md) - 详细的使用方法
-- [部署指南](./DEPLOYMENT.md) - 部署到生产环境
-- [演示指南](./DEMO.md) - 本地和在线演示
-- [开发文档](./DEVELOPMENT.md) - 技术架构和开发计划
+- **spreadsheet** - 将数据展示为交互式电子表格
+- **import_spreadsheet** - 导入 Excel/CSV 文件并显示为表格
 
 ## 🛠 技术栈
 
-- **前端**: Jspreadsheet CE + vanilla JS
-- **后端**: Next.js + MCP SDK
-- **Excel 处理**: SheetJS
-- **部署**: Vercel
+- **前端**: React 19 + jspreadsheet-ce
+- **框架**: Skybridge（MCP Apps 全栈框架）
+- **后端**: Express 5 + MCP SDK
+- **Excel 处理**: SheetJS (xlsx)
+- **部署**: Vercel / 任意 Node.js 服务器
+
+## 📁 项目结构
+
+```
+spreadsheet-mcp-app/
+├── server/
+│   ├── src/
+│   │   ├── index.ts       # Express 应用入口
+│   │   ├── server.ts      # Skybridge McpServer + widget 注册
+│   │   └── middleware.ts  # MCP 传输中间件
+│   └── utils/
+│       └── excel-parser.ts # Excel/CSV 解析器
+├── web/
+│   ├── src/
+│   │   ├── helpers.ts     # 类型安全的 Skybridge hooks
+│   │   ├── index.css      # Widget 样式
+│   │   └── widgets/
+│   │       └── spreadsheet.tsx # 电子表格 React 组件
+│   └── vite.config.ts     # Vite 构建配置
+├── package.json
+├── tsconfig.json
+└── README.md
+```
 
 ## 📄 许可证
 
 MIT License
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-## 🆘 支持
-
-如有问题，请：
-1. 查看相关文档
-2. 提交 Issue
-3. 联系开发者
