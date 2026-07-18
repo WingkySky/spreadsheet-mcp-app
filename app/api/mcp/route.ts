@@ -37,13 +37,16 @@ export async function POST(request: NextRequest) {
     await mcpServer.connect(transport);
 
     // 将 NextRequest 转换为 Web Standard Request
+    // duplex: "half" 是 Node.js 18+ 的 Fetch API 要求，但 @types/node 旧版本不识别
     const url = new URL(request.url);
-    const webRequest = new Request(url, {
+    const webRequestInit: Record<string, unknown> = {
       method: request.method,
       headers: request.headers,
       body: request.body as ReadableStream | null,
-      duplex: "half", // 必须：发送 body 时需要设置 duplex
-    });
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (webRequestInit as any).duplex = "half";
+    const webRequest = new Request(url, webRequestInit as RequestInit);
 
     // 处理请求并获取 Response
     const response = await transport.handleRequest(webRequest);
