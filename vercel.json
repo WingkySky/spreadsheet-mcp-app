@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "outputDirectory": "dist",
-  "framework": "none",
+  "framework": "vite",
   "regions": ["iad1"],
   "env": {
     "NODE_ENV": "production"
